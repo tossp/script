@@ -11,9 +11,6 @@ lsb_release -a
 timedatectl set-timezone Asia/Shanghai
 # timedatectl set-ntp true
 
-hostnamectl
-timedatectl
-
 echo "Asia/Shanghai" > /etc/timezone && \
   dpkg-reconfigure -f noninteractive tzdata && \
   sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
@@ -21,6 +18,10 @@ echo "Asia/Shanghai" > /etc/timezone && \
   echo 'LANG="zh_CN.UTF-8"'>/etc/default/locale && \
   dpkg-reconfigure --frontend=noninteractive locales && \
   update-locale LANG=zh_CN.UTF-8 LANGUAGE='zh_CN:zh:en_US:en'
+
+hostnamectl
+timedatectl
+localectl
 
 lsblk
 ls -l /dev/disk/by-uuid/
