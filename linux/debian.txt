@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/debian.txt | bash
+
+set -ev
+
+apt install ca-certificates curl gnupg lsb-release
+
+lsb_release -a
+
+timedatectl set-timezone Asia/Shanghai
+# timedatectl set-ntp true
+
+hostnamectl
+timedatectl
+
+lsblk
+
+mkdir -p $HOME/.ssh && touch $HOME/.ssh/authorized_keys && chmod u=rwX  -R $HOME/.ssh && chmod go-rwx -R $HOME/.ssh
+
+sed -ri '#code@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -ri '#devops@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -ri '#nas@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -ri '#ci@tossp.com#d' $HOME/.ssh/authorized_keys
+echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+7z04YLygCtZ1+LG7MGNuloVt1ClXDjuFApki+InGg devops@tossp.com' >> $HOME/.ssh/authorized_keys
+echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIc18masa4hyk1u1v8XXTz5Wde0n8zZ9LR9onrjaCrtb nas@tossp.com' >> $HOME/.ssh/authorized_keys
+echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFjk9wDB7YhX5wiAJam5pXBJIwqoXDR7WRxn4KkUnIFp ci@tossp.com' >> $HOME/.ssh/authorized_keys
+
+sed -ri 's/^#?PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
+sed -ri 's/^#?PermitEmptyPasswords.*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+sed -ri 's/^#?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# nohup curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/zto.txt | bash &
+# curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/zto.txt | bash
+
+apt install ca-certificates curl gnupg lsb-release htop clamav clamav-daemon
+
+# tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
+
+# # yum update zerotier-one
+# # curl -s https://install.zerotier.com | sed 's#download.zerotier.com/#mirrors.sustech.edu.cn/zerotier/#g' | bash
+# curl -s https://install.zerotier.com | bash
+
+# ls -la /var/lib/zerotier-one
+# curl -o /var/lib/zerotier-one/planet http://tsde.oss-cn-chengdu.aliyuncs.com/debian/zt_world/world.bin
+# ls -la /var/lib/zerotier-one
+# zerotier-cli info
+# zerotier-cli listnetworks
+# zerotier-cli deorbit 000000c093cee2ac
+# zerotier-cli leave af78bf9436925b14
+# zerotier-cli leave 68beb14d5d759736
+# zerotier-cli leave 4fb744953a521216
+# systemctl stop zerotier-one
+# # rm -rf /var/lib/zerotier-one/identity.*
+# systemctl start zerotier-one
+# sleep 2
+# zerotier-cli join 68beb14d5d384694
+# zerotier-cli orbit 0000006839c09167 0000006839c09167
+# zerotier-cli listnetworks
+
+# docker
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] http://mirrors.cloud.tencent.com/docker-ce/linux/debian \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt update
+
+# systemctl stop zerotier-one && rm -rf /var/lib/zerotier-one/identity.* && systemctl start zerotier-one
+# nohup sleep 10 ;systemctl stop zerotier-one;systemctl start zerotier-one;echo ok &
