@@ -39,3 +39,6 @@ apt update
 
 # systemctl stop zerotier-one && rm -rf /var/lib/zerotier-one/identity.* && systemctl start zerotier-one
 # nohup sleep 10 ;systemctl stop zerotier-one;systemctl start zerotier-one;echo ok &
+
+# bt
+# curl -LsS https://download.bt.cn/install/install_panel.sh | go=y bash
