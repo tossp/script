@@ -37,6 +37,10 @@ echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+7z04YLygCtZ1+LG7MGNuloVt1ClXDjuFApk
 echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIc18masa4hyk1u1v8XXTz5Wde0n8zZ9LR9onrjaCrtb nas@tossp.com' >> $HOME/.ssh/authorized_keys
 echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFjk9wDB7YhX5wiAJam5pXBJIwqoXDR7WRxn4KkUnIFp ci@tossp.com' >> $HOME/.ssh/authorized_keys
 
+sed -ri 's/^#?Protocol.*/Protocol 2/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PermitEmptyPasswords.*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+sed -ri 's/^#?ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g' /etc/ssh/sshd_config
+sed -ri 's/^#?UsePAM.*/UsePAM yes/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sed -ri 's/^#?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
