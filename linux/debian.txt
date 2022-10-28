@@ -27,12 +27,13 @@ lsblk
 ls -l /dev/disk/by-uuid/
 # echo 'UUID=d14c6f99-58db-4399-bf34-a707b87594fd /www ext4    defaults,noatime      0       1' >> /etc/fstab
 
+# ssh
 mkdir -p $HOME/.ssh && touch $HOME/.ssh/authorized_keys && chmod u=rwX  -R $HOME/.ssh && chmod go-rwx -R $HOME/.ssh
 
-sed -ri '#code@tossp.com#d' $HOME/.ssh/authorized_keys
-sed -ri '#devops@tossp.com#d' $HOME/.ssh/authorized_keys
-sed -ri '#nas@tossp.com#d' $HOME/.ssh/authorized_keys
-sed -ri '#ci@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -i '#code@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -i '#devops@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -i '#nas@tossp.com#d' $HOME/.ssh/authorized_keys
+sed -i '#ci@tossp.com#d' $HOME/.ssh/authorized_keys
 echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+7z04YLygCtZ1+LG7MGNuloVt1ClXDjuFApki+InGg devops@tossp.com' >> $HOME/.ssh/authorized_keys
 echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIc18masa4hyk1u1v8XXTz5Wde0n8zZ9LR9onrjaCrtb nas@tossp.com' >> $HOME/.ssh/authorized_keys
 echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFjk9wDB7YhX5wiAJam5pXBJIwqoXDR7WRxn4KkUnIFp ci@tossp.com' >> $HOME/.ssh/authorized_keys
@@ -44,3 +45,7 @@ sed -ri 's/^#?ChallengeResponseAuthentication.*/ChallengeResponseAuthentication 
 sed -ri 's/^#?UsePAM.*/UsePAM yes/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+# systemctl restart sshd
+
+groupadd --system caddy || true
+useradd --system --gid caddy --create-home --home-dir /var/lib/caddy --shell /usr/sbin/nologin --comment "Caddy web server" caddy || true
