@@ -4,7 +4,7 @@
 
 set -ev
 
-apt install ca-certificates curl gnupg lsb-release
+apt update && apt install ca-certificates curl gnupg lsb-release
 
 lsb_release -a
 
