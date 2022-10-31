@@ -11,7 +11,8 @@ lsb_release -a
 timedatectl set-timezone Asia/Shanghai
 # timedatectl set-ntp true
 
-echo "Asia/Shanghai" > /etc/timezone && \
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+  echo "Asia/Shanghai" > /etc/timezone && \
   dpkg-reconfigure -f noninteractive tzdata && \
   sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
   sed -i -e 's/# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' /etc/locale.gen && \
@@ -24,6 +25,7 @@ timedatectl
 localectl
 
 lsblk
+df -h
 ls -l /dev/disk/by-uuid/
 # echo 'UUID=d14c6f99-58db-4399-bf34-a707b87594fd /www ext4    defaults,noatime      0       1' >> /etc/fstab
 
@@ -46,6 +48,10 @@ sed -ri 's/^#?UsePAM.*/UsePAM yes/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sed -ri 's/^#?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
 # systemctl restart sshd
+
+# dhclient
+# echo 'supersede domain-name-servers 114.114.114.114, 223.5.5.5;' >> /etc/dhcp/dhclient.conf
+# sed -ri 's/^supersede.*/supersede domain-name-servers 114.114.114.114, 223.5.5.5;/g' /etc/dhcp/dhclient.conf
 
 groupadd --system caddy || true
 useradd --system --gid caddy --create-home --home-dir /var/lib/caddy --shell /usr/sbin/nologin --comment "Caddy web server" caddy || true

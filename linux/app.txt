@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# nohup curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/zto.txt | bash &
-# curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/zto.txt | bash
+# nohup curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/app.txt | bash &
+# curl -LsS https://code.tossp.com/ts/script/-/raw/main/linux/app.txt | bash
 
-apt install ca-certificates curl gnupg lsb-release htop clamav clamav-daemon
+apt install ca-certificates curl gnupg lsb-release htop clamav clamav-daemon p7zip-full p7zip-rar
 
 # tailscale
 curl -fsSL https://tailscale.com/install.sh | sh
+echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.d/99-tailscale.conf
+# echo 'net.ipv6.conf.all.forwarding = 1' | tee -a /etc/sysctl.d/99-tailscale.conf
+sysctl -p /etc/sysctl.d/99-tailscale.conf
 
 # # yum update zerotier-one
 # # curl -s https://install.zerotier.com | sed 's#download.zerotier.com/#mirrors.sustech.edu.cn/zerotier/#g' | bash
@@ -36,6 +39,9 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] http://mirrors.cloud.tencent.com/docker-ce/linux/debian \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt update
+# mkdir /etc/docker && \
+# echo '{"experimental": true,"live-restore": true,"registry-mirrors": ["https://dp.tossp.com:2087"],"log-opts": {"max-size": "1m","max-file": "3"}}' > /etc/docker/daemon.json
+# apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 # systemctl stop zerotier-one && rm -rf /var/lib/zerotier-one/identity.* && systemctl start zerotier-one
 # nohup sleep 10 ;systemctl stop zerotier-one;systemctl start zerotier-one;echo ok &
