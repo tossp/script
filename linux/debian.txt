@@ -4,7 +4,7 @@
 
 set -ev
 
-apt update && apt install ca-certificates curl gnupg lsb-release
+apt update && apt install ca-certificates curl gnupg lsb-release bash-completion vim htop lsof strace
 
 lsb_release -a
 
@@ -27,7 +27,7 @@ localectl
 lsblk
 df -h
 ls -l /dev/disk/by-uuid/
-# echo 'UUID=d14c6f99-58db-4399-bf34-a707b87594fd /www ext4    defaults,noatime      0       1' >> /etc/fstab
+# echo 'UUID=bdfc76ca-d903-4ea8-8374-42ff8b9a5a2d /opt btrfs    defaults,noatime      0       1' >> /etc/fstab
 
 # ssh
 mkdir -p $HOME/.ssh && touch $HOME/.ssh/authorized_keys && chmod u=rwX  -R $HOME/.ssh && chmod go-rwx -R $HOME/.ssh
